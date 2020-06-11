@@ -297,21 +297,21 @@ var rMap = function(array, callback) {
 // var obj = {'e':{'x':'y'},'t':{'r':{'e':'r'},'p':{'y':'r'}},'y':'e'};
 // countKeysInObj(obj, 'r') // 1
 // countKeysInObj(obj, 'e') // 2
-var countKeysInObj = function(obj, key) {/*
-  if(Object.entries(obj).length === 0){
+var countKeysInObj = function(obj, key) {
+  if(Object.keys(obj).length === 0){
     return 0;
   } else {
     var sum = 0;
     if(obj[key] !== undefined){
       sum++;
     }
-    for(ver k in obj){
-      if(obj[k] !== null && typeof obj[k] === 'object'){
+    for(var k in obj){
+      if((obj[k] !== undefined) && (typeof obj[k] === 'object')){
         sum += countKeysInObj(obj[k], key);
       }
     }
     return sum;
-  }*/
+  }
 };
 
 // 23. Write a function that counts the number of times a value occurs in an object.
@@ -319,11 +319,34 @@ var countKeysInObj = function(obj, key) {/*
 // countValuesInObj(obj, 'r') // 2
 // countValuesInObj(obj, 'e') // 1
 var countValuesInObj = function(obj, value) {
+  if(Object.keys(obj).length === 0){
+    return 0;
+  } else {
+    var sum = 0;
+    for(var k in obj){
+      if(obj[k] === value){
+        sum++;
+      } else if((obj[k] !== undefined) && (typeof obj[k] === 'object')){
+        sum += countValuesInObj(obj[k], value);
+      }
+    }
+    return sum;
+  }
 };
 
 // 24. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
 var replaceKeysInObj = function(obj, oldKey, newKey) {
+  if(obj[oldKey] !== undefined){
+    obj[newKey] = obj[oldKey];
+    delete obj[oldKey];
+  }
+  for(var k in obj){
+    if((obj[k] !== undefined) && (typeof obj[k] === 'object')){
+      obj[k] = replaceKeysInObj(obj[k], oldKey, newKey);
+    }
+  }
+  return obj;
 };
 
 // 25. Get the first n Fibonacci numbers. In the Fibonacci sequence, each subsequent
@@ -360,11 +383,22 @@ var nthFibo = function(n) {
 // var words = ['i', 'am', 'learning', 'recursion'];
 // capitalizedWords(words); // ['I', 'AM', 'LEARNING', 'RECURSION']
 var capitalizeWords = function(array) {
+  if(array.length === 0){
+    return [];
+  } else {
+    return [array[0].toUpperCase()].concat(capitalizeWords(array.slice(1)));
+  }
 };
 
 // 28. Given an array of strings, capitalize the first letter of each index.
 // capitalizeFirst(['car','poop','banana']); // ['Car','Poop','Banana']
 var capitalizeFirst = function(array) {
+  if(array.length === 0){
+    return [];
+  } else {
+    var str = [array[0][0].toUpperCase() + array[0].substr(1)];
+    return str.concat(capitalizeFirst(array.slice(1)));
+  }
 };
 
 // 29. Return the sum of all even numbers in an object containing nested objects.

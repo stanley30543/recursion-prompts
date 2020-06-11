@@ -500,12 +500,44 @@ var minimizeZeroes = function(array) {
 // alternateSign([2,7,8,3,1,4]) // [2,-7,8,-3,1,-4]
 // alternateSign([-2,-7,8,3,-1,4]) // [2,-7,8,-3,1,-4]
 var alternateSign = function(array) {
+  if(array.length === 0){
+    return [];
+  } else if (array.length === 1){
+    return [Math.abs(array[0])];
+  } else {
+    return [Math.abs(array[0]), - Math.abs(array[1])].concat(alternateSign(array.slice(2)));
+  }
 };
 
 // 36. Given a string, return a string with digits converted to their word equivalent.
 // Assume all numbers are single digits (less than 10).
 // numToText("I have 5 dogs and 6 ponies"); // "I have five dogs and six ponies"
 var numToText = function(str) {
+  if(str.length === 0){
+    return '';
+  } else if (str[0] === '0'){
+    return 'zero' + numToText(str.substr(1));
+  } else if (str[0] === '1'){
+    return 'one' + numToText(str.substr(1));
+  } else if (str[0] === '2'){
+    return 'two' + numToText(str.substr(1));
+  } else if (str[0] === '3'){
+    return 'three' + numToText(str.substr(1));
+  } else if (str[0] === '4'){
+    return 'four' + numToText(str.substr(1));
+  } else if (str[0] === '5'){
+    return 'five' + numToText(str.substr(1));
+  } else if (str[0] === '6'){
+    return 'six' + numToText(str.substr(1));
+  } else if (str[0] === '7'){
+    return 'seven' + numToText(str.substr(1));
+  } else if (str[0] === '8'){
+    return 'eight' + numToText(str.substr(1));
+  } else if (str[0] === '9'){
+    return 'nine' + numToText(str.substr(1));
+  } else {
+    return str[0] + numToText(str.substr(1));
+  }
 };
 
 
@@ -520,12 +552,41 @@ var tagCount = function(tag, node) {
 // binarySearch(array, 5) // 5
 // https://www.khanacademy.org/computing/computer-science/algorithms/binary-search/a/binary-search
 var binarySearch = function(array, target, min, max) {
+  var mid = Math.floor(array.length / 2);
+  if(array.length === 0){
+    return null;
+  } else if (array[0] > target || array[array.length - 1] < target){
+    return null;
+  } else if(array[mid] === target){
+    return mid;
+  } else if (array[mid] > target){
+    return binarySearch(array.slice(0, mid), target);
+  } else {
+    var temp =  binarySearch(array.slice(mid), target);
+    if(temp === null){
+      return null;
+    } else {
+      return temp + mid;
+    }
+  }
 };
 
 // 39. Write a merge sort function.
 // mergeSort([34,7,23,32,5,62]) // [5,7,23,32,34,62]
 // https://www.khanacademy.org/computing/computer-science/algorithms/merge-sort/a/divide-and-conquer-algorithms
-var mergeSort = function(array) {
+var mergeSort = function(array) {/*
+  if(array.length === 0 || array.length === 1){
+    return array;
+  } else if (array.length === 2){
+    if(array[0] <= array[1]){
+      return array;
+    } else {
+      return [array[1], array[0]];
+    }
+  } else {
+    var mid = Math.floor(array.length);
+    return mergeSort(mergeSort(array.slice(0, mid)).concat(mergeSort(array.slice(mid))));
+  }*/
 };
 
 // 40. Deeply clone objects and arrays.
